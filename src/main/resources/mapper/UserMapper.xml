@@ -4,12 +4,23 @@
 <mapper namespace="com.example.capp.mapper.UserMapper">
 
     <resultMap id="BaseResultMap" type="com.example.capp.dto.User">
-        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="screen_name" property="screenName"/>
+        <result column="email" property="email"/>
+        <result column="avatar" property="avatar"/>
+        <result column="home_url" property="homeUrl"/>
+        <result column="last_activated" property="lastActivated"/>
+        <result column="last_logged" property="lastLogged"/>
+        <result column="group_name" property="groupName"/>
     </resultMap>
 
-    <!--<select id="query" resultMap="BaseResultMap">-->
-
-    <!--</select>-->
+    <select id="selectByUsername" resultMap="BaseResultMap">
+      select *
+      from tl_user
+      where username = #{username}
+    </select>
 
 
 

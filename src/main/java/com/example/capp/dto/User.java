@@ -33,7 +33,7 @@ public class User {
     /**
      * 头像图片地址
      */
-    private String avater;
+    private String avatar;
 
     /***
      * 主页地址
@@ -53,7 +53,7 @@ public class User {
     /**
      * 用户组
      */
-    private String groupNmae;
+    private String groupName;
 
 
 
@@ -97,12 +97,12 @@ public class User {
         this.email = email;
     }
 
-    public String getAvater() {
-        return avater;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setAvater(String avater) {
-        this.avater = avater;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getHomeUrl() {
@@ -129,12 +129,12 @@ public class User {
         this.lastLogged = lastLogged;
     }
 
-    public String getGroupNmae() {
-        return groupNmae;
+    public String getGroupName() {
+        return groupName;
     }
 
-    public void setGroupNmae(String groupNmae) {
-        this.groupNmae = groupNmae;
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 
     @Override
@@ -145,11 +145,11 @@ public class User {
                 ", password='" + password + '\'' +
                 ", screenName='" + screenName + '\'' +
                 ", email='" + email + '\'' +
-                ", avater='" + avater + '\'' +
+                ", avatar='" + avatar + '\'' +
                 ", homeUrl='" + homeUrl + '\'' +
                 ", lastActivated=" + lastActivated +
                 ", lastLogged=" + lastLogged +
-                ", groupNmae='" + groupNmae + '\'' +
+                ", groupName='" + groupName + '\'' +
                 '}';
     }
 }
