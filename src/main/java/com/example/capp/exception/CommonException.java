@@ -37,7 +37,7 @@ public class CommonException extends RuntimeException{
         this.errorMessageArgument = new String[0];
     }
 
-    public static CommonException wityErrorCode(String errorCode) {
+    public static CommonException withErrorCode(String errorCode) {
         CommonException commonException = new CommonException();
         commonException.errorCode = errorCode;
         return commonException;

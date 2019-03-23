@@ -16,12 +16,27 @@
         <result column="group_name" property="groupName"/>
     </resultMap>
 
+    <!--通过用户名获取用户信息-->
     <select id="selectByUsername" resultMap="BaseResultMap">
       select *
       from tl_user
       where username = #{username}
     </select>
 
+    <!--通过用户名和密码获取用户信息-->
+    <select id="getUserInfoByCond" resultMap="BaseResultMap">
+        SELECT *
+        FROM tl_user
+        <where>
+            <if test="username != null">
+                AND username = #{username}
+            </if>
+            <if test="password != null">
+                AND password = #{password}
+            </if>
+        </where>
+
+    </select>
 
 
     <!--<update id="update" parameterType="com.example.demo.dto.Test">-->

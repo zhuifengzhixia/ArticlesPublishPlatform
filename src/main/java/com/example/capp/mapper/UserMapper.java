@@ -13,4 +13,12 @@ public interface UserMapper {
      * @return
      */
     User selectByUsername(@Param("username") String username);
+
+    /**
+     * 根据用户名密码获取用户信息
+     * @param username
+     * @param pwd
+     * @return
+     */
+    User getUserInfoByCond(@Param("username") String username, @Param("password") String pwd);
 }

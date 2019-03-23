@@ -93,7 +93,7 @@
 <script type="text/javascript">
     function checkForm() {
         $.post({
-            url: '/login/check_user_login',
+            url: '/auth/login',
             data: $("#loginForm").serialize(),
             success: function (result) {
                 if (result && result.code == 'success') {
