@@ -38,6 +38,19 @@ public class ContentCond {
      */
     private Integer endTime;
 
+    /**
+     * 内容所属用户id
+     */
+    private Integer authorId;
+
+    public Integer getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(Integer authorId) {
+        this.authorId = authorId;
+    }
+
     public String getTag() {
         return tag;
     }

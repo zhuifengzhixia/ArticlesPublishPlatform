@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserDao userDao;//这里会报错，但是并不影响
+    private UserDao userDao;
 
 
     @Override

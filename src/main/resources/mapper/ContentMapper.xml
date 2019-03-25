@@ -137,6 +137,9 @@
             <if test="endTime != null">
                 AND c.created &lt;= #{endTime, jdbcType=INTEGER}
             </if>
+            <if test="authorId != null">
+                AND c.authorId = #{authorId, jdbcType=INTEGER}
+            </if>
         </where>
         ORDER BY c.created DESC
     </select>

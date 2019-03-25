@@ -7,6 +7,7 @@ import com.example.capp.model.ContentDomain;
 import com.example.capp.model.MetaDomain;
 import com.github.pagehelper.PageInfo;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -42,6 +43,17 @@ public interface ContentService {
      */
     PageInfo<ContentDomain> getArticlesByCond(ContentCond contentCond, int page, int limit);
 
+
+    /***
+     * 通过作者获取文章
+     * @param contentCond
+     * @param page
+     * @param limit
+     * @param request
+     * @return
+     */
+    PageInfo<ContentDomain> getArticlesByAuthor(ContentCond contentCond, int page, int limit, HttpServletRequest request);
+
     /**
      * 删除文章
      * @param cid
@@ -67,4 +79,5 @@ public interface ContentService {
      * @return
      */
     List<ContentDomain> getArticleByTags(MetaDomain tags);
+
 }

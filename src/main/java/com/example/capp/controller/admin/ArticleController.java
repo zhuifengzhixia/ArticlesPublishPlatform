@@ -3,11 +3,13 @@ package com.example.capp.controller.admin;
 
 import com.example.capp.constant.LogActions;
 import com.example.capp.constant.Types;
+import com.example.capp.constant.WebConst;
 import com.example.capp.controller.BaseController;
 import com.example.capp.dto.cond.ContentCond;
 import com.example.capp.dto.cond.MetaCond;
 import com.example.capp.model.ContentDomain;
 import com.example.capp.model.MetaDomain;
+import com.example.capp.model.UserDomain;
 import com.example.capp.service.article.ContentService;
 import com.example.capp.service.log.LogService;
 import com.example.capp.service.meta.MetaService;
@@ -53,6 +55,22 @@ public class ArticleController extends BaseController {
             int limit
     ) {
         PageInfo<ContentDomain> articles = contentService.getArticlesByCond(new ContentCond(), page, limit);
+        request.setAttribute("articles",articles);
+        return "admin/article_list";
+    }
+
+    @ApiOperation("文章页")
+    @GetMapping(value = "/personal")
+    public String index2(
+            HttpServletRequest request,
+            @ApiParam(name = "page", value = "页数", required = false)
+            @RequestParam(name = "page", required = false, defaultValue = "1")
+                    int page,
+            @ApiParam(name = "limit", value = "每页数量", required = false)
+            @RequestParam(name = "limit", required = false, defaultValue = "15")
+                    int limit
+    ) {
+        PageInfo<ContentDomain> articles = contentService.getArticlesByAuthor(new ContentCond(), page, limit, request);
         request.setAttribute("articles",articles);
         return "admin/article_list";
     }
@@ -168,7 +186,8 @@ public class ArticleController extends BaseController {
             String tags,
             @ApiParam(name = "allowComment", value = "是否允许评论", required = true)
             @RequestParam(name = "allowComment", required = true)
-            Boolean allowComment
+            Boolean allowComment,
+            HttpServletRequest request
     ) {
         ContentDomain contentDomain = new ContentDomain();
         contentDomain.setTitle(title);
@@ -179,6 +198,9 @@ public class ArticleController extends BaseController {
         contentDomain.setStatus(status);
         contentDomain.setHits(1);
         contentDomain.setCommentsNum(0);
+        //获取登录人信息
+        UserDomain userinfo = (UserDomain)request.getSession().getAttribute(WebConst.LOGIN_SESSION_KEY);
+        contentDomain.setAuthorId(userinfo.getUid());
         // 只允许博客文章有分类，防止作品被收入分类
         contentDomain.setTags(type.equals(Types.ARTICLE.getType()) ? tags : null);
         contentDomain.setCategories(type.equals(Types.ARTICLE.getType()) ? categories : null);

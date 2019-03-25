@@ -9,10 +9,7 @@ import com.example.capp.dao.ContentDao;
 import com.example.capp.dao.RelationShipDao;
 import com.example.capp.dto.cond.ContentCond;
 import com.example.capp.exception.BusinessException;
-import com.example.capp.model.CommentDomain;
-import com.example.capp.model.ContentDomain;
-import com.example.capp.model.MetaDomain;
-import com.example.capp.model.RelationShipDomain;
+import com.example.capp.model.*;
 import com.example.capp.service.article.ContentService;
 import com.example.capp.service.meta.MetaService;
 import com.github.pagehelper.PageHelper;
@@ -25,6 +22,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Service
@@ -113,6 +111,20 @@ public class ContentServiceImpl implements ContentService {
     }
 
     @Override
+    public PageInfo<ContentDomain> getArticlesByAuthor(ContentCond contentCond, int pageNum, int pageSize, HttpServletRequest request) {
+        if (null == contentCond) {
+            throw BusinessException.withErrorCode(ErrorConstant.Common.PARAM_IS_EMPTY);
+        }
+        //获取当前登录用户信息
+        UserDomain userinfo = (UserDomain)request.getSession().getAttribute(WebConst.LOGIN_SESSION_KEY);
+        contentCond.setAuthorId(userinfo.getUid());
+        PageHelper.startPage(pageNum,pageSize);
+        List<ContentDomain> contents = contentDao.getArticleByCond(contentCond);
+        PageInfo<ContentDomain> pageInfo = new PageInfo<>(contents);
+        return pageInfo;
+    }
+
+    @Override
     @Transactional
     @CacheEvict(value = {"articleCache","articleCaches"},allEntries = true, beforeInvocation = true)
     public void deleteArticleById(Integer cid) {
@@ -165,4 +177,5 @@ public class ContentServiceImpl implements ContentService {
         }
         return null;
     }
+
 }
