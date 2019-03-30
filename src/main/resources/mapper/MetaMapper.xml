@@ -114,13 +114,16 @@
     <select id="selectFromSql" resultMap="MetaDto" parameterType="Map">
         SELECT
           a.*,
-          count(b.cid) AS count 
+          count(b.cid) AS count
         FROM
           <include refid="BASE_TABLE" /> AS a
         LEFT JOIN
-          <include refid="RELATION_SHIP_TABLE"/> AS b ON a.mid = b.mid
+          <include refid="RELATION_SHIP_TABLE"/> AS b ON (a.mid = b.mid and b.authorId = #{authorId})
         WHERE
           a.type = #{type}
+          <if test="authorId != null">
+              and a.authorId = #{authorId}
+          </if>
         GROUP BY
           a.mid
         ORDER BY
@@ -137,6 +140,17 @@
           <include refid="BASE_TABLE"/> AS m
         WHERE
           m.type = #{type, jdbcType=VARCHAR}
+    </select>
+
+    <!--根据类型获取meta总数-->
+    <select id="getMetasCountByTypeAndAthorId" resultType="java.lang.Long">
+        SELECT
+          COUNT(*)
+        FROM
+          <include refid="BASE_TABLE"/> AS m
+        WHERE
+          m.type = #{type, jdbcType=VARCHAR}
+        and m.authorId = #{authorId}
     </select>
     <!--通过Meta名查找Meta项目-->
     <select id="getMetaByName" resultType="com.example.capp.model.MetaDomain">

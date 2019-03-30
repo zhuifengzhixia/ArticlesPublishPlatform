@@ -66,10 +66,20 @@ public interface MetaDao {
     Long getMetasCountByType(@Param("type") String type);
 
     /**
+     * 根据类型和归属id获取meta数量
+     * @param type
+     * @param authorId
+     * @return
+     */
+    Long getMetasCountByTypeAndAthorId(@Param("type") String type, @Param("authorId") Integer authorId);
+
+    /**
      * 通过Meta名查找Meta项目
      * @param type
      * @param name
      * @return
      */
     MetaDomain getMetaByName(@Param("type") String type, @Param("name") String name);
+
+
 }

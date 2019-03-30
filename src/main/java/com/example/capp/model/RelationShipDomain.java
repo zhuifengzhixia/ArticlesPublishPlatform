@@ -16,6 +16,9 @@ public class RelationShipDomain {
      */
     private Integer mid;
 
+    private Integer authorId;
+
+
     public Integer getCid() {
         return cid;
     }
@@ -30,5 +33,13 @@ public class RelationShipDomain {
 
     public void setMid(Integer mid) {
         this.mid = mid;
+    }
+
+    public Integer getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(Integer authorId) {
+        this.authorId = authorId;
     }
 }

@@ -93,6 +93,25 @@ public class MetaServiceImpl implements MetaService {
     }
 
     @Override
+    public List<MetaDto> getMetaListByAuthorId(String type, String orderBy, int limit, Integer authorId) {
+        if (StringUtils.isNotBlank(type)) {
+            if (StringUtils.isBlank(orderBy)) {
+                orderBy = "count desc, a.mid desc";
+            }
+            if (limit < 1 || limit > WebConst.MAX_POSTS) {
+                limit = 10;
+            }
+            Map<String, Object> paraMap = new HashMap<>();
+            paraMap.put("type", type);
+            paraMap.put("order", orderBy);
+            paraMap.put("limit", limit);
+            paraMap.put("authorId", authorId);
+            return metaDao.selectFromSql(paraMap);
+        }
+        return null;
+    }
+
+    @Override
     @Transactional
     @CacheEvict(value = {"metaCaches","metaCache"}, allEntries = true, beforeInvocation = true)
     public void addMetas(Integer cid, String names, String type) {
@@ -146,8 +165,9 @@ public class MetaServiceImpl implements MetaService {
     @Transactional
     @CacheEvict(value = {"metaCaches","metaCache"}, allEntries = true, beforeInvocation = true)
     public void addMea(MetaDomain meta) {
-        if (null == meta)
+        if (null == meta) {
             throw BusinessException.withErrorCode(ErrorConstant.Common.PARAM_IS_EMPTY);
+        }
         metaDao.addMeta(meta);
     }
 
@@ -155,17 +175,27 @@ public class MetaServiceImpl implements MetaService {
     @Transactional
     @CacheEvict(value = {"metaCaches", "metaCache"}, allEntries = true, beforeInvocation = true)
     public void updateMeta(MetaDomain meta) {
-        if (null == meta || null == meta.getMid())
+        if (null == meta || null == meta.getMid()) {
             throw BusinessException.withErrorCode(ErrorConstant.Common.PARAM_IS_EMPTY);
+        }
         metaDao.updateMeta(meta);
     }
 
     @Override
     @Cacheable(value = "metaCaches", key = "'metaCountByType_'+ #p0")
     public Long getMetasCountByType(String type) {
-        if (null == type)
+        if (null == type) {
             throw BusinessException.withErrorCode(ErrorConstant.Common.PARAM_IS_EMPTY);
+        }
         return metaDao.getMetasCountByType(type);
+    }
+
+    @Override
+    public Long getMetasCountByTypeAndAthorId(String type, Integer authorId) {
+        if (null == type) {
+            throw BusinessException.withErrorCode(ErrorConstant.Common.PARAM_IS_EMPTY);
+        }
+        return metaDao.getMetasCountByTypeAndAthorId(type, authorId);
     }
 
     @Override
@@ -175,6 +205,8 @@ public class MetaServiceImpl implements MetaService {
             throw BusinessException.withErrorCode(ErrorConstant.Common.PARAM_IS_EMPTY);
         return metaDao.getMetaByName(type,name);
     }
+
+
 
     @Override
     @Transactional

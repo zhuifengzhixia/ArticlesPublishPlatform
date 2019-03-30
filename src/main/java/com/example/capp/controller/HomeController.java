@@ -9,6 +9,7 @@ import com.example.capp.exception.BusinessException;
 import com.example.capp.model.CommentDomain;
 import com.example.capp.model.ContentDomain;
 import com.example.capp.model.MetaDomain;
+import com.example.capp.model.UserDomain;
 import com.example.capp.service.article.ContentService;
 import com.example.capp.service.comment.CommentService;
 import com.example.capp.service.meta.MetaService;
@@ -89,6 +90,21 @@ public class HomeController extends BaseController {
         return "blog/category";
     }
 
+    @ApiOperation("个人分类内容页")
+    @GetMapping(value = "/categories/personal")
+    public String categories2(HttpServletRequest request) {
+        //获取当前登录用户信息
+        UserDomain userinfo = (UserDomain)request.getSession().getAttribute(WebConst.LOGIN_SESSION_KEY);
+        Integer authorId = userinfo.getUid();
+        // 获取分类
+        List<MetaDto> categories = metaService.getMetaListByAuthorId(Types.CATEGORY.getType(),null,WebConst.MAX_POSTS, authorId);
+        // 分类总数
+        Long categoryCount = metaService.getMetasCountByTypeAndAthorId(Types.CATEGORY.getType(),authorId);
+        request.setAttribute("categories", categories);
+        request.setAttribute("categoryCount", categoryCount);
+        return "blog/category";
+    }
+
     @ApiOperation("分类详情页")
     @GetMapping(value = "/categories/{name}")
     public String categoriesDetail(
@@ -113,6 +129,21 @@ public class HomeController extends BaseController {
         List<MetaDto> tags = metaService.getMetaList(Types.TAG.getType(), null, WebConst.MAX_POSTS);
         // 标签总数
         Long tagCount = metaService.getMetasCountByType(Types.TAG.getType());
+        request.setAttribute("tags", tags);
+        request.setAttribute("tagCount", tagCount);
+        return "blog/tags";
+    }
+
+    @ApiOperation("个人标签内容页")
+    @GetMapping(value = "/tags/personal")
+    public String tags2(HttpServletRequest request) {
+        //获取当前登录用户信息
+        UserDomain userinfo = (UserDomain)request.getSession().getAttribute(WebConst.LOGIN_SESSION_KEY);
+        Integer authorId = userinfo.getUid();
+        // 获取标签
+        List<MetaDto> tags = metaService.getMetaListByAuthorId(Types.TAG.getType(), null, WebConst.MAX_POSTS, authorId);
+        // 标签总数
+        Long tagCount = metaService.getMetasCountByTypeAndAthorId(Types.TAG.getType(), authorId);
         request.setAttribute("tags", tags);
         request.setAttribute("tagCount", tagCount);
         return "blog/tags";

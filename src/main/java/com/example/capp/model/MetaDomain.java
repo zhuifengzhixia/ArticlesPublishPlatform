@@ -45,6 +45,8 @@ public class MetaDomain implements Serializable {
 
     private Integer parent;
 
+    private Integer authorId;
+
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }
@@ -111,5 +113,13 @@ public class MetaDomain implements Serializable {
 
     public void setParent(Integer parent) {
         this.parent = parent;
+    }
+
+    public Integer getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(Integer authorId) {
+        this.authorId = authorId;
     }
 }

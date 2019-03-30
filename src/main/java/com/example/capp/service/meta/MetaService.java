@@ -31,6 +31,17 @@ public interface MetaService {
     List<MetaDto> getMetaList(String type, String orderBy, int limit);
 
     /**
+     * 根据项目类型和归属id查询列表
+     * @param type
+     * @param orderBy
+     * @param limit
+     * @param authorId
+     * @return
+     */
+    List<MetaDto> getMetaListByAuthorId(String type, String orderBy, int limit, Integer authorId);
+
+
+    /**
      * 添加或者更新
      * @param cid
      * @param name
@@ -79,10 +90,21 @@ public interface MetaService {
     Long getMetasCountByType(String type);
 
     /**
+     * 通过类型和归属Id获取项目总数
+     * @param type
+     * @param authorId
+     * @return
+     */
+    Long getMetasCountByTypeAndAthorId(String type, Integer authorId);
+
+    /**
      * 通过Meta名查找Meta项目
      * @param type
      * @param name
      * @return
      */
     MetaDomain getMetaByName(String type, String name);
+
+
+
 }
