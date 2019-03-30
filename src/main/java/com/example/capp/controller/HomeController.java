@@ -55,7 +55,7 @@ public class HomeController extends BaseController {
             @RequestParam(name = "limit", required = false, defaultValue = "5")
             int limit
     ) {
-        PageInfo<ContentDomain> articles = contentService.getArticlesByCond(new ContentCond(), page, limit);
+        PageInfo<ContentDomain> articles = contentService.getArticlesByAuthor(new ContentCond(), page, limit, request);
 
         request.setAttribute("articles",articles);
         return "blog/home";
@@ -72,7 +72,7 @@ public class HomeController extends BaseController {
             @RequestParam(name = "limit", required = false, defaultValue = "10")
             int limit
     ) {
-        PageInfo<ContentDomain> articles = contentService.getArticlesByCond(new ContentCond(), page, limit);
+        PageInfo<ContentDomain> articles = contentService.getArticlesByAuthor(new ContentCond(), page, limit, request);
         request.setAttribute("articles", articles);
         return "blog/archives";
     }
