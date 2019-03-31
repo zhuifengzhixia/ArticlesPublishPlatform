@@ -6,6 +6,7 @@ import com.example.capp.constant.WebConst;
 import com.example.capp.controller.BaseController;
 import com.example.capp.dto.MetaDto;
 import com.example.capp.exception.BusinessException;
+import com.example.capp.model.UserDomain;
 import com.example.capp.service.meta.MetaService;
 import com.example.capp.utils.APIResponse;
 import io.swagger.annotations.Api;
@@ -40,6 +41,20 @@ public class CategoryController extends BaseController {
         request.setAttribute("tags",tags);
         return "admin/category";
     }
+
+    @ApiOperation("进入分类和标签页")
+    @GetMapping(value = "/personal")
+    public String index2(HttpServletRequest request) {
+        //获取当前登录用户信息
+        UserDomain userinfo = (UserDomain)request.getSession().getAttribute(WebConst.LOGIN_SESSION_KEY);
+        Integer authorId = userinfo.getUid();
+        List<MetaDto> categories = metaService.getMetaListByAuthorId(Types.CATEGORY.getType(),null,WebConst.MAX_POSTS, authorId);
+        List<MetaDto> tags = metaService.getMetaListByAuthorId(Types.TAG.getType(), null, WebConst.MAX_POSTS, authorId);
+        request.setAttribute("categories",categories);
+        request.setAttribute("tags",tags);
+        return "admin/category";
+    }
+
 
     @ApiOperation("保存分类")
     @PostMapping(value = "/save")
