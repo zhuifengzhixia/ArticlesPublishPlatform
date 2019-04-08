@@ -44,6 +44,15 @@ public interface ContentService {
     PageInfo<ContentDomain> getArticlesByCond(ContentCond contentCond, int page, int limit);
 
 
+    /**
+     * 获取所有的文章
+     * @param contentCond
+     * @param page
+     * @param limit
+     * @return
+     */
+    PageInfo<ContentDomain> getArticles(ContentCond contentCond, int page, int limit);
+
     /***
      * 通过作者获取文章
      * @param contentCond
@@ -79,5 +88,6 @@ public interface ContentService {
      * @return
      */
     List<ContentDomain> getArticleByTags(MetaDomain tags);
+
 
 }

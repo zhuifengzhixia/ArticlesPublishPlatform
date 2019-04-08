@@ -1,0 +1,128 @@
+
+
+.header-top a{
+    /*color: #02DEE9;*/
+    text-decoration: none;
+    border: none;
+}
+.header-top a:hover{
+    /*color: crimson;*/
+}
+.header-top li{
+    list-style: none;
+}
+.header-top p{
+    font-size: 12px;
+}
+
+.header-top{
+    height: 58px;
+    width: 100%;
+    border: 1px solid #BFBABA;
+    margin: 0 auto;
+    padding-top: 11px;
+    background: #fff;
+    /*margin: 0 auto;*/
+    /*border-color: #f0f0f0;*/
+}
+.header-top .logo{
+    width: 150px;
+    height: 42px;
+    float: left;
+    margin-left: 20px;
+    margin-right: 50px;
+    line-height: 40px;
+    border-radius: 20px;
+    font-size: 15px;
+    background-color: #ea6f5a;
+    text-align: center;
+}
+.header-top .logo a{
+    color: #fff;
+}
+.header-top .logo a{
+    display: block;
+    width: 150px;
+    height: 42px;
+    overflow: hidden;
+}
+/*.header-top nav{*/
+    /*margin-left: 20px;*/
+    /*float: left;*/
+/*}*/
+/*.header-top nav li{*/
+    /*float: left;*/
+    /*height: 40px;*/
+    /*line-height: 40px;*/
+    /*margin-left: 20px;*/
+/*}*/
+/*nav li a:hover{*/
+    /*border-bottom: 2px solid crimson;*/
+/*}*/
+/*.header-top .search{*/
+    /*float: left;*/
+    /*width: 410px;*/
+    /*height: 40px;*/
+    /*background: purple;*/
+    /*margin-left: 90px;*/
+/*}*/
+.header-top .search input{
+    margin-top: 3px;
+    float: left;
+    width: 361px;
+    height: 36px;
+    border: 1px solid #00a4ff;
+    outline: none;
+    padding-left: 10px;
+    border-radius: 20px;
+}
+.header-top .search button{
+    margin-top: 3px;
+    float: left;
+    width: 49px;
+    height: 40px;
+    background: url(../images/fa-search.png) no-repeat;
+    border: 0;
+    outline: none;
+    border-radius: 20px;
+}
+
+.right .login {
+    float: right;
+    margin: 11px 6px 0 10px;
+    font-size: 15px;
+}
+.right .login a{
+    color: #969696;
+}
+
+.right .register {
+    float: right;
+    width: 80px;
+    height: 38px;
+    line-height: 38px;
+    margin: 5px 5px 0 15px;
+    border: 1px solid rgba(236, 97, 73, .7);
+    border-radius: 20px;
+    font-size: 15px;
+    text-align: center;
+}
+.right .register a{
+    color: #ea6f5a;
+}
+
+.right .write {
+    float: right;
+    width: 100px;
+    height: 40px;
+    line-height: 40px;
+    margin: 4px 15px 0;
+    border-radius: 20px;
+    font-size: 15px;
+    color: #fff;
+    background-color: #ea6f5a;
+    text-align: center;
+}
+.right .write a{
+    color: #fff;
+}

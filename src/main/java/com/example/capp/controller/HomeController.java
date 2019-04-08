@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.net.URLEncoder;
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class HomeController extends BaseController {
     private MetaService metaService;
 
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "/personal/index")
     public String index(
             HttpServletRequest request,
             @ApiParam(name = "page", value = "页数", required = false)
@@ -91,11 +92,18 @@ public class HomeController extends BaseController {
     }
 
     @ApiOperation("个人分类内容页")
-    @GetMapping(value = "/categories/personal")
+    @GetMapping(value = "/personal/categories")
     public String categories2(HttpServletRequest request) {
-        //获取当前登录用户信息
-        UserDomain userinfo = (UserDomain)request.getSession().getAttribute(WebConst.LOGIN_SESSION_KEY);
-        Integer authorId = userinfo.getUid();
+
+        Integer authorId;
+        HttpSession session = request.getSession();
+        if(session.getAttribute("authorId") != null){
+            authorId = (Integer) request.getSession().getAttribute("authorId");
+        } else {
+            UserDomain userinfo = (UserDomain) session.getAttribute(WebConst.LOGIN_SESSION_KEY);
+            authorId = userinfo.getUid();
+        }
+
         // 获取分类
         List<MetaDto> categories = metaService.getMetaListByAuthorId(Types.CATEGORY.getType(),null,WebConst.MAX_POSTS, authorId);
         // 分类总数
@@ -114,8 +122,10 @@ public class HomeController extends BaseController {
             String name
     ) {
         MetaDomain category = metaService.getMetaByName(Types.CATEGORY.getType(),name);
-        if (null == category.getName())
+        if (null == category.getName()) {
             throw BusinessException.withErrorCode(ErrorConstant.Common.PARAM_IS_EMPTY);
+        }
+
         List<ContentDomain> articles = contentService.getArticleByCategory(category.getName());
         request.setAttribute("category", category.getName());
         request.setAttribute("articles", articles);
@@ -135,11 +145,17 @@ public class HomeController extends BaseController {
     }
 
     @ApiOperation("个人标签内容页")
-    @GetMapping(value = "/tags/personal")
+    @GetMapping(value = "/personal/tags")
     public String tags2(HttpServletRequest request) {
-        //获取当前登录用户信息
-        UserDomain userinfo = (UserDomain)request.getSession().getAttribute(WebConst.LOGIN_SESSION_KEY);
-        Integer authorId = userinfo.getUid();
+        Integer authorId;
+        HttpSession session = request.getSession();
+        if(session.getAttribute("authorId") != null){
+            authorId = (Integer) request.getSession().getAttribute("authorId");
+        } else {
+            UserDomain userinfo = (UserDomain) session.getAttribute(WebConst.LOGIN_SESSION_KEY);
+            authorId = userinfo.getUid();
+        }
+
         // 获取标签
         List<MetaDto> tags = metaService.getMetaListByAuthorId(Types.TAG.getType(), null, WebConst.MAX_POSTS, authorId);
         // 标签总数
@@ -170,18 +186,25 @@ public class HomeController extends BaseController {
     }
 
     @ApiOperation("文章内容页")
-    @GetMapping(value = "/detail/{cid}")
+    @GetMapping(value = "/detail/{cid}/{authorId}")
     public String detail(
             @ApiParam(name = "cid", value = "文章主键", required = true)
             @PathVariable("cid")
             Integer cid,
-            HttpServletRequest request
+            HttpServletRequest request,
+            @PathVariable("authorId") Integer authorId
     ) {
         ContentDomain article = contentService.getArticleById(cid);
         request.setAttribute("article", article);
 
+        //设置authorId
+        HttpSession session = request.getSession();
+        if(authorId != null) {
+            session.setAttribute("authorId", authorId);
+        }
+
         // 更新文章的点击量
-        this.updateArticleHits(article.getCid(),article.getHits());
+        this.updateArticleHits(article.getCid(),article.getHits()+1);
         // 获取评论
         List<CommentDomain> comments = commentService.getCommentsByCId(cid);
         request.setAttribute("comments", comments);

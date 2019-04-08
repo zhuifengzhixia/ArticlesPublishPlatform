@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Service
@@ -111,13 +112,30 @@ public class ContentServiceImpl implements ContentService {
     }
 
     @Override
+    public PageInfo<ContentDomain> getArticles(ContentCond contentCond, int pageNum, int pageSize) {
+        if (null == contentCond) {
+            throw BusinessException.withErrorCode(ErrorConstant.Common.PARAM_IS_EMPTY);
+        }
+        PageHelper.startPage(pageNum,pageSize);
+        List<ContentDomain> contents = contentDao.getArticleByCond(contentCond);
+        PageInfo<ContentDomain> pageInfo = new PageInfo<>(contents);
+        return pageInfo;
+    }
+
+    @Override
     public PageInfo<ContentDomain> getArticlesByAuthor(ContentCond contentCond, int pageNum, int pageSize, HttpServletRequest request) {
         if (null == contentCond) {
             throw BusinessException.withErrorCode(ErrorConstant.Common.PARAM_IS_EMPTY);
         }
-        //获取当前登录用户信息
-        UserDomain userinfo = (UserDomain)request.getSession().getAttribute(WebConst.LOGIN_SESSION_KEY);
-        contentCond.setAuthorId(userinfo.getUid());
+        Integer authorId;
+        HttpSession session = request.getSession();
+        if(session.getAttribute("authorId") != null){
+            authorId = (Integer) request.getSession().getAttribute("authorId");
+        } else {
+            UserDomain userinfo = (UserDomain) session.getAttribute(WebConst.LOGIN_SESSION_KEY);
+            authorId = userinfo.getUid();
+        }
+        contentCond.setAuthorId(authorId);
         PageHelper.startPage(pageNum,pageSize);
         List<ContentDomain> contents = contentDao.getArticleByCond(contentCond);
         PageInfo<ContentDomain> pageInfo = new PageInfo<>(contents);
