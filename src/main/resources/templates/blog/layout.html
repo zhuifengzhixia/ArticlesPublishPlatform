@@ -12,6 +12,7 @@
     <link href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Rosario:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css"/>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
     <link th:href="@{/blog/css/main.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/home/css/style.css}" rel="stylesheet" type="text/css"/>
     <meta name="keywords" content="KyrieCao"/>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/blog/image/favicon1.ico}"/>
     <meta name="description" content="Trust yourself！"/>
@@ -48,6 +49,7 @@
 
     <div class="container sidebar-position-left page-home">
         <div class="headband"></div>
+        <div th:replace="home/fragments/header::header2"></div>
         <div th:replace="blog/fragments/header::header"></div>
         <main id="main" class="main">
             <div class="main-inner">
