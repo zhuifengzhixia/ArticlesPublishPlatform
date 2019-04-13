@@ -9,8 +9,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
     <link href="https://cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css"/>
-    <link href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Rosario:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css"/>
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <!--<link href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Rosario:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css"/>-->
+    <!--<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>-->
+    <link th:href="@{//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css}" rel="stylesheet"/>
+    <link th:href="@{//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/admin/css/style.min.css}" rel="stylesheet" type="text/css"/>
     <link th:href="@{/blog/css/main.css}" rel="stylesheet" type="text/css"/>
     <link th:href="@{/home/css/style.css}" rel="stylesheet" type="text/css"/>
     <meta name="keywords" content="KyrieCao"/>
@@ -98,6 +101,7 @@
     <script type="text/javascript" th:src="@{/blog/js/src/algolia-search.js}"></script>
     <link rel="stylesheet" th:href="@{/blog/lib/algolia-instant-search/instantsearch.min.css}">
     <script type="text/javascript" th:src="@{/blog/lib/algolia-instant-search/instantsearch.min.js}"></script>
+    <script th:src="@{//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
     <script>
         var href = location.href;
         var id = href.substring(href.lastIndexOf("/") + 1,href.length);
@@ -115,34 +119,41 @@
 
         function commentClick() {
             var content = $("#comment-content").val();
-            var author = $("#nickname").val();
-            var email = $("#email").val();
-            var url = $("#url").val();
+            // var author = $("#nickname").val();
+            // var email = $("#email").val();
+            // var url = $("#url").val();
             var coid = $("#coid").val();
             var cid = $("#cid").val();
             var csrf_token = $("#csrf_token").val();
+            var login_user_id = $("#login_user_id").val();
+            if(login_user_id == "-1" ) {
+                alert("请先登录再进行评论");
+                return false;
+            }
 
-            if (null == content || "" == content || undefined == content) {
-                alert("内容不能为空");
-                return false;
-            }
-            if (null == author || "" == author || undefined == author) {
-                alert("姓名不能为空");
-                return false;
-            }
-            if (null == email || "" == email || undefined == email) {
-                alert("邮箱不能为空");
-                return false;
-            }
+
+            // if (null == content || "" == content || undefined == content) {
+            //     alert("内容不能为空");
+            //     return false;
+            // }
+            // if (null == author || "" == author || undefined == author) {
+            //     alert("姓名不能为空");
+            //     return false;
+            // }
+            // if (null == email || "" == email || undefined == email) {
+            //     alert("邮箱不能为空");
+            //     return false;
+            // }
 
             var data = {
                 "content": content,
-                "author":author,
-                "email": email,
-                "url": url,
+                // "author":author,
+                // "email": email,
+                // "url": url,
                 "csrf_token": csrf_token,
                 "coid": coid,
-                "cid": cid
+                "cid": cid,
+                "login_user_id": login_user_id,
             };
 
             console.log(data);

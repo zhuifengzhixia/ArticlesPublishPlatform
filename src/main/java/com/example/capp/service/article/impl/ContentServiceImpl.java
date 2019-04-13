@@ -129,12 +129,10 @@ public class ContentServiceImpl implements ContentService {
         }
         Integer authorId;
         HttpSession session = request.getSession();
-        if(session.getAttribute("authorId") != null){
-            authorId = (Integer) request.getSession().getAttribute("authorId");
-        } else {
-            UserDomain userinfo = (UserDomain) session.getAttribute(WebConst.LOGIN_SESSION_KEY);
-            authorId = userinfo.getUid();
-        }
+
+        UserDomain userinfo = (UserDomain) session.getAttribute(WebConst.LOGIN_SESSION_KEY);
+        authorId = userinfo.getUid();
+
         contentCond.setAuthorId(authorId);
         PageHelper.startPage(pageNum,pageSize);
         List<ContentDomain> contents = contentDao.getArticleByCond(contentCond);

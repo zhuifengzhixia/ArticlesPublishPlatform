@@ -16,7 +16,7 @@
 }
 
 .header-top{
-    height: 58px;
+    height: 67px;
     width: 100%;
     border: 1px solid #BFBABA;
     margin: 0 auto;
@@ -125,4 +125,14 @@
 }
 .right .write a{
     color: #fff;
+}
+
+.right ul li a {
+    margin-top: -15px;
+    margin-right: 20px;
+}
+
+.right ul li a:hover, .right ul li a:active, .right ul li a:visited{
+    background-color: #fff;
+    text-decoration: none;
 }

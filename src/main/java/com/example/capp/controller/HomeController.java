@@ -197,7 +197,7 @@ public class HomeController extends BaseController {
         ContentDomain article = contentService.getArticleById(cid);
         request.setAttribute("article", article);
 
-        //设置authorId
+        //设置session中的authorId
         HttpSession session = request.getSession();
         if(authorId != null) {
             session.setAttribute("authorId", authorId);
@@ -208,6 +208,13 @@ public class HomeController extends BaseController {
         // 获取评论
         List<CommentDomain> comments = commentService.getCommentsByCId(cid);
         request.setAttribute("comments", comments);
+
+        UserDomain userinfo = (UserDomain) session.getAttribute(WebConst.LOGIN_SESSION_KEY);
+        if(userinfo != null){
+            request.setAttribute("login_user_id", userinfo.getUid());
+        } else {
+            request.setAttribute("login_user_id", -1);
+        }
 
         return "blog/detail";
     }
@@ -240,11 +247,12 @@ public class HomeController extends BaseController {
     public APIResponse comment(HttpServletRequest request, HttpServletResponse response,
                                @RequestParam(name = "cid", required = true) Integer cid,
                                @RequestParam(name = "coid", required = false) Integer coid,
-                               @RequestParam(name = "author", required = false) String author,
-                               @RequestParam(name = "email", required = false) String email,
-                               @RequestParam(name = "url", required = false) String url,
+//                               @RequestParam(name = "author", required = false) String author,
+//                               @RequestParam(name = "email", required = false) String email,
+//                               @RequestParam(name = "url", required = false) String url,
                                @RequestParam(name = "content", required = true) String content,
-                               @RequestParam(name = "csrf_token", required = true) String csrf_token
+                               @RequestParam(name = "csrf_token", required = true) String csrf_token,
+                               @RequestParam(name = "login_user_id", required = true) String login_user_id
                                ) {
 
         String ref = request.getHeader("Referer");
@@ -261,20 +269,24 @@ public class HomeController extends BaseController {
             return APIResponse.fail("请输入完整后评论");
         }
 
-        if (StringUtils.isNotBlank(author) && author.length() > 50) {
-            return APIResponse.fail("姓名过长");
-        }
-
-        if (StringUtils.isNotBlank(email) && !TaleUtils.isEmail(email)) {
-            return APIResponse.fail("请输入正确的邮箱格式");
-        }
-
-        if (StringUtils.isNotBlank(url) && !TaleUtils.isURL(url)) {
-            return APIResponse.fail("请输入正确的网址格式");
-        }
+//        if (StringUtils.isNotBlank(author) && author.length() > 50) {
+//            return APIResponse.fail("姓名过长");
+//        }
+//
+//        if (StringUtils.isNotBlank(email) && !TaleUtils.isEmail(email)) {
+//            return APIResponse.fail("请输入正确的邮箱格式");
+//        }
+//
+//        if (StringUtils.isNotBlank(url) && !TaleUtils.isURL(url)) {
+//            return APIResponse.fail("请输入正确的网址格式");
+//        }
 
         if (content.length() > 200) {
             return APIResponse.fail("请输入200个字符以内的评价");
+        }
+
+        if(StringUtils.isBlank(login_user_id)) {
+            return APIResponse.fail("请先登录在评论");
         }
 
         String val = IPKit.getIpAddressByRequest1(request) + ":" + cid;
@@ -283,35 +295,39 @@ public class HomeController extends BaseController {
             return APIResponse.fail("您发表的评论太快了，请过会再试");
         }
 
-        author = TaleUtils.cleanXSS(author);
-        content = TaleUtils.cleanXSS(content);
+//        author = TaleUtils.cleanXSS(author);
+//        content = TaleUtils.cleanXSS(content);
 
-        author = EmojiParser.parseToAliases(author);
+//        author = EmojiParser.parseToAliases(author);
         content = EmojiParser.parseToAliases(content);
 
 
         CommentDomain comments = new CommentDomain();
-        comments.setAuthor(author);
+//        comments.setAuthor(author);
         comments.setCid(cid);
         comments.setIp(request.getRemoteAddr());
-        comments.setUrl(url);
+//        comments.setUrl(url);
         comments.setContent(content);
-        comments.setEmail(email);
+//        comments.setEmail(email);
         comments.setParent(coid);
+        comments.setAuthorId(login_user_id);
 
         try {
             commentService.addComment(comments);
-            cookie("tale_remember_author", URLEncoder.encode(author,"UTF-8"), 7 * 24 * 60 * 60, response);
-            cookie("tale_remember_mail", URLEncoder.encode(email,"UTF-8"), 7 * 24 * 60 * 60, response);
-            if (StringUtils.isNotBlank(url)) {
-                cookie("tale_remember_url",URLEncoder.encode(url,"UTF-8"),7 * 24 * 60 * 60, response);
-            }
+//            cookie("tale_remember_author", URLEncoder.encode(author,"UTF-8"), 7 * 24 * 60 * 60, response);
+//            cookie("tale_remember_mail", URLEncoder.encode(email,"UTF-8"), 7 * 24 * 60 * 60, response);
+//            if (StringUtils.isNotBlank(url)) {
+//                cookie("tale_remember_url",URLEncoder.encode(url,"UTF-8"),7 * 24 * 60 * 60, response);
+//            }
             // 设置对每个文章1分钟可以评论一次
             cache.hset(Types.COMMENTS_FREQUENCY.getType(),val,1,60);
 
             return APIResponse.success();
 
+        } catch (BusinessException e){
+            return APIResponse.fail(e.getErrorCode());
         } catch (Exception e) {
+//            e.printStackTrace();
             throw BusinessException.withErrorCode(ErrorConstant.Comment.ADD_NEW_COMMENT_FAIL);
         }
 
