@@ -57,7 +57,45 @@ public class HomeController extends BaseController {
             @RequestParam(name = "limit", required = false, defaultValue = "5")
             int limit
     ) {
-        PageInfo<ContentDomain> articles = contentService.getArticlesByAuthor(new ContentCond(), page, limit, request);
+        Integer authorId;
+        HttpSession session = request.getSession();
+        //session中是否存在authorId,
+        if(session.getAttribute("authorId") != null){
+            authorId = (Integer) request.getSession().getAttribute("authorId");
+        } else {
+            UserDomain userinfo = (UserDomain) session.getAttribute(WebConst.LOGIN_SESSION_KEY);
+            authorId = userinfo.getUid();
+        }
+        ContentCond contentCond = new ContentCond();
+        contentCond.setAuthorId(authorId);
+
+        PageInfo<ContentDomain> articles = contentService.getArticlesByAuthor(contentCond, page, limit);
+
+        request.setAttribute("articles",articles);
+        return "blog/home";
+    }
+
+    @GetMapping(value = "/personal/home")
+    public String personal(
+            HttpServletRequest request,
+            @ApiParam(name = "page", value = "页数", required = false)
+            @RequestParam(name = "page", required = false, defaultValue = "1")
+                    int page,
+            @ApiParam(name = "limit", value = "每页数量", required = false)
+            @RequestParam(name = "limit", required = false, defaultValue = "5")
+                    int limit
+    ) {
+        ContentCond contentCond = new ContentCond();
+        Integer authorId;
+        HttpSession session = request.getSession();
+        //session中是否存在authorId,
+        if(session.getAttribute("authorId") != null){
+            session.removeAttribute("authorId");
+        }
+        UserDomain userinfo = (UserDomain) session.getAttribute(WebConst.LOGIN_SESSION_KEY);
+        authorId = userinfo.getUid();
+        contentCond.setAuthorId(authorId);
+        PageInfo<ContentDomain> articles = contentService.getArticlesByAuthor(contentCond, page, limit);
 
         request.setAttribute("articles",articles);
         return "blog/home";
@@ -74,7 +112,18 @@ public class HomeController extends BaseController {
             @RequestParam(name = "limit", required = false, defaultValue = "10")
             int limit
     ) {
-        PageInfo<ContentDomain> articles = contentService.getArticlesByAuthor(new ContentCond(), page, limit, request);
+        Integer authorId;
+        HttpSession session = request.getSession();
+        //session中是否存在authorId,
+        if(session.getAttribute("authorId") != null){
+            authorId = (Integer) request.getSession().getAttribute("authorId");
+        } else {
+            UserDomain userinfo = (UserDomain) session.getAttribute(WebConst.LOGIN_SESSION_KEY);
+            authorId = userinfo.getUid();
+        }
+        ContentCond contentCond = new ContentCond();
+        contentCond.setAuthorId(authorId);
+        PageInfo<ContentDomain> articles = contentService.getArticlesByAuthor(contentCond, page, limit);
         request.setAttribute("articles", articles);
         return "blog/archives";
     }

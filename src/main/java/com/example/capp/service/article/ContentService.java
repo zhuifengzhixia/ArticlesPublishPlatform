@@ -58,10 +58,9 @@ public interface ContentService {
      * @param contentCond
      * @param page
      * @param limit
-     * @param request
      * @return
      */
-    PageInfo<ContentDomain> getArticlesByAuthor(ContentCond contentCond, int page, int limit, HttpServletRequest request);
+    PageInfo<ContentDomain> getArticlesByAuthor(ContentCond contentCond, int page, int limit);
 
     /**
      * 删除文章

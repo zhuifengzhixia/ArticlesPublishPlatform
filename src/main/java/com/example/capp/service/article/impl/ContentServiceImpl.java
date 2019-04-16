@@ -123,17 +123,10 @@ public class ContentServiceImpl implements ContentService {
     }
 
     @Override
-    public PageInfo<ContentDomain> getArticlesByAuthor(ContentCond contentCond, int pageNum, int pageSize, HttpServletRequest request) {
+    public PageInfo<ContentDomain> getArticlesByAuthor(ContentCond contentCond, int pageNum, int pageSize) {
         if (null == contentCond) {
             throw BusinessException.withErrorCode(ErrorConstant.Common.PARAM_IS_EMPTY);
         }
-        Integer authorId;
-        HttpSession session = request.getSession();
-
-        UserDomain userinfo = (UserDomain) session.getAttribute(WebConst.LOGIN_SESSION_KEY);
-        authorId = userinfo.getUid();
-
-        contentCond.setAuthorId(authorId);
         PageHelper.startPage(pageNum,pageSize);
         List<ContentDomain> contents = contentDao.getArticleByCond(contentCond);
         PageInfo<ContentDomain> pageInfo = new PageInfo<>(contents);

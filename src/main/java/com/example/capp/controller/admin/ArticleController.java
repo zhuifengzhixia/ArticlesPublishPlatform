@@ -25,6 +25,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Api("文章管理")
@@ -54,6 +55,7 @@ public class ArticleController extends BaseController {
             @RequestParam(name = "limit", required = false, defaultValue = "15")
             int limit
     ) {
+
         PageInfo<ContentDomain> articles = contentService.getArticlesByCond(new ContentCond(), page, limit);
         request.setAttribute("articles",articles);
         return "admin/article_list";
@@ -70,7 +72,18 @@ public class ArticleController extends BaseController {
             @RequestParam(name = "limit", required = false, defaultValue = "15")
                     int limit
     ) {
-        PageInfo<ContentDomain> articles = contentService.getArticlesByAuthor(new ContentCond(), page, limit, request);
+        Integer authorId;
+        HttpSession session = request.getSession();
+        //session中是否存在authorId,
+        if(session.getAttribute("authorId") != null){
+            authorId = (Integer) request.getSession().getAttribute("authorId");
+        } else {
+            UserDomain userinfo = (UserDomain) session.getAttribute(WebConst.LOGIN_SESSION_KEY);
+            authorId = userinfo.getUid();
+        }
+        ContentCond contentCond = new ContentCond();
+        contentCond.setAuthorId(authorId);
+        PageInfo<ContentDomain> articles = contentService.getArticlesByAuthor(contentCond, page, limit);
         request.setAttribute("articles",articles);
         return "admin/article_list";
     }
