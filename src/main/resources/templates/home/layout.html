@@ -103,9 +103,36 @@
     <script type="text/javascript" th:src="@{/blog/lib/algolia-instant-search/instantsearch.min.js}"></script>
     <script th:src="@{//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
 <script type="text/javascript">
-    $(document).ready(function () {
-        location.reload();
+
+    $("#search-btn").click(function () {
+        var search_input_value = $("#search-input").val();
+        // $.ajax({
+        //     url: '/home/search?searchInput=' + search_input_value,
+        //     type: 'GET',
+        //     success: function () {
+        //         window.location.reload();
+        //     },
+        //     error: function (err) {
+        //         console.log(err);
+        //     }
+        // })
+
+        var search_a = document.getElementById("search-a");
+        if (search_input_value == null || search_input_value == "" || search_input_value == undefined) {
+            $("#search-a").attr("href","/");
+        } else {
+            $("#search-a").attr("href","/home/search?searchInput=" + search_input_value);
+        }
+        // search_a.click();
+        $("#search-a")[0].click();
     });
+
+    $("#search-input").bind('keydown', function (e) {
+        if (e.keyCode == "13") {
+            $("#search-btn").click();
+        }
+    });
+
 </script>
 </body>
 </html>
