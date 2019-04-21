@@ -31,4 +31,10 @@ public interface UserService {
      */
     int updateUserInfo(UserDomain user);
 
+    /**
+     * 创建账户信息
+     * @param userDomain
+     * @return
+     */
+    int insert(UserDomain userDomain);
 }

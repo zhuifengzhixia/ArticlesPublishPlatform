@@ -85,6 +85,9 @@
             <if test="parent != null">
                 AND cm.parent = #{parent, jdbcType=INTEGER}
             </if>
+            <if test="ownerId != null">
+                AND cm.ownerId = #{ownerId, jdbcType=INTEGER}
+            </if>
         </where>
         ORDER BY cm.created
     </select>

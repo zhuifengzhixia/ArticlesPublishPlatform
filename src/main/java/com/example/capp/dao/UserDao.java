@@ -32,4 +32,10 @@ public interface UserDao {
      */
     int updateUserInfo(UserDomain user);
 
+    /**
+     * 添加账户信息
+     * @param userDomain
+     * @return
+     */
+    int addUser(UserDomain user);
 }

@@ -22,7 +22,7 @@
 .header-top{
     height: 67px;
     width: 100%;
-    border: 1px solid #BFBABA;
+    border-bottom: 1px solid #BFBABA;
     margin: 0 auto;
     padding-top: 11px;
     background: #fff;

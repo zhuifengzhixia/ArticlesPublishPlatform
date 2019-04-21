@@ -23,6 +23,13 @@ public class CommentCond {
      */
     private Integer parent;
 
+
+    /**
+     * 评论所属内容作者id
+     */
+    private Integer ownerId;
+
+
     public String getStatus() {
         return status;
     }
@@ -53,5 +60,13 @@ public class CommentCond {
 
     public void setParent(Integer parent) {
         this.parent = parent;
+    }
+
+    public Integer getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Integer ownerId) {
+        this.ownerId = ownerId;
     }
 }

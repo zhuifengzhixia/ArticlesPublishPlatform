@@ -42,7 +42,9 @@ public class CommentController extends BaseController {
 
     ) {
         UserDomain user = this.user(request);
-        PageInfo<CommentDomain> comments = commentService.getCommentsByCond(new CommentCond(), page, limit);
+        CommentCond commentCond = new CommentCond();
+        commentCond.setOwnerId(user.getUid());
+        PageInfo<CommentDomain> comments = commentService.getCommentsByCond(commentCond, page, limit);
         request.setAttribute("comments", comments);
         return "admin/comment_list";
     }

@@ -48,4 +48,10 @@ public class UserServiceImpl implements UserService {
             throw BusinessException.withErrorCode("用户编号不能为空");
         return userDao.updateUserInfo(user);
     }
+
+    @Transactional
+    @Override
+    public int insert(UserDomain userDomain) {
+        return userDao.addUser(userDomain);
+    }
 }

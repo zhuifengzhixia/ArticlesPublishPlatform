@@ -54,6 +54,16 @@
         WHERE
           uid = #{uid,jdbcType=INTEGER}
     </update>
+    
+    <insert id="addUser" parameterType="com.example.capp.model.UserDomain">
+      insert into <include refid="BASE_TABLE"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            username, password, email, screenName, created, activated, logged, groupName,
+        </trim>
+        <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
+            #{username}, #{password}, #{email}, #{screenName}, UNIX_TIMESTAMP(NOW()), 0, 0, 'visitor',
+        </trim>
+    </insert>
 
 
 </mapper>
