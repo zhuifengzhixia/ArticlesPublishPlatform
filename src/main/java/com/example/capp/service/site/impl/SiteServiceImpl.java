@@ -54,6 +54,20 @@ public class SiteServiceImpl implements SiteService {
     }
 
     @Override
+    public List<CommentDomain> getCommentsByAuthorId(Integer uid, int limit) {
+        LOGGER.debug("Enter recentComments method: limit={}", limit);
+        if (limit < 0 || limit > 10) {
+            limit = 10;
+        }
+        PageHelper.startPage(1,limit);
+        CommentCond commentCond = new CommentCond();
+        commentCond.setOwnerId(uid);
+        List<CommentDomain> rs = commentDao.getCommentsByCond(commentCond);
+        LOGGER.debug("Exit recentComments method");
+        return rs;
+    }
+
+    @Override
     @Cacheable(value = "siteCache", key = "'newArticles_' + #p0")
     public List<ContentDomain> getNewArticles(int limit) {
         LOGGER.debug("Enter recentArticles method:limit={}",limit);
@@ -91,4 +105,5 @@ public class SiteServiceImpl implements SiteService {
         LOGGER.debug("Exit recentStatistics method");
         return rs;
     }
+
 }

@@ -58,7 +58,7 @@ public class ArticleController extends BaseController {
 
         PageInfo<ContentDomain> articles = contentService.getArticlesByCond(new ContentCond(), page, limit);
         request.setAttribute("articles",articles);
-        return "admin/article_list";
+        return "background/article_list";
     }
 
     @ApiOperation("文章页")

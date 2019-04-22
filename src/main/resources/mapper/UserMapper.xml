@@ -65,5 +65,20 @@
         </trim>
     </insert>
 
+    <select id="getUsers" resultType="com.example.capp.model.UserDomain">
+        SELECT
+        <include refid="BASE_COLUMN"/>
+        FROM
+        <include refid="BASE_TABLE"/> u
+        WHERE
+          u.groupName = 'visitor'
+    </select>
+    
+    <delete id="deleteUserById" parameterType="java.lang.Integer">
+      delete u from
+      <include refid="BASE_TABLE"/> u
+      where u.uid = #{uid}
+    </delete>
+
 
 </mapper>

@@ -4,6 +4,8 @@ import com.example.capp.model.UserDomain;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * 用户dao层接口
  */
@@ -34,8 +36,20 @@ public interface UserDao {
 
     /**
      * 添加账户信息
-     * @param userDomain
+     * @param user
      * @return
      */
     int addUser(UserDomain user);
+
+    /**
+     * 获取所有的用户信息
+     * @return
+     */
+    List<UserDomain> getUsers();
+
+    /**
+     * 根据id删除用户
+     * @param uid
+     */
+    void deleteUserById(Integer uid);
 }

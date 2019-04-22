@@ -88,6 +88,13 @@ public class BaseInterceptor implements HandlerInterceptor {
             return false;
         }
 
+        UserDomain backAdmin = (UserDomain) request.getSession().getAttribute("backAdmin");
+        if(uri.startsWith("/back") && !uri.startsWith("/back/login") && !uri.startsWith("/back/admin/login") && backAdmin == null){
+            response.sendRedirect(request.getContextPath() + "/back/login");
+            return false;
+        }
+
+
         // 设置GET请求的token
         if (request.getMethod().equals("GET")) {
             String csrf_token = UUID.UU64();

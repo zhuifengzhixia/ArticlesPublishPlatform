@@ -3,6 +3,7 @@ package com.example.capp.service.user;
 
 
 import com.example.capp.model.UserDomain;
+import com.github.pagehelper.PageInfo;
 
 /**
  * 用户相关Service接口
@@ -37,4 +38,17 @@ public interface UserService {
      * @return
      */
     int insert(UserDomain userDomain);
+
+
+    /**
+     * 获取所有的用户信息
+     * @return
+     */
+    PageInfo<UserDomain> getUsers(int page, int limit);
+
+    /**
+     * 根据id删除用户信息
+     * @param uid
+     */
+    void deleteUserById(Integer uid);
 }

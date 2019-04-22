@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:fragment="headerFragment(title,active)">
     <meta charset="utf-8"/>
-    <title><th:block th:text="${title!=null?title:'博客后台'}+'- CAPP'"></th:block></title>
+    <title><th:block th:text="${title!=null?title:'博客后台'}+'-用户'"></th:block></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <meta content="Coderthemes" name="author"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -80,7 +80,7 @@
                 <li th:class="${active}=='home'?'active':''">
                     <a th:href="@{/admin/index}"
                        th:class="${active}=='home'?'waves-effect active':'waves-effect'"><i
-                            class="fa fa-dashboard" aria-hidden="true"></i><span> 仪表盘 </span></a>
+                            class="fa fa-dashboard" aria-hidden="true"></i><span> 与我相关 </span></a>
                 </li>
                 <li th:class="${active}=='publish'?'active':''">
                     <a th:href="@{/admin/article/publish}"
@@ -100,7 +100,7 @@
                 <a th:href="@{/admin/comments}"
                    th:class="${active}=='comments'?'waves-effect active':'waves-effect'"><i
                         class="fa fa-comments" aria-hidden="true"></i><span> 评论管理 </span></a>
-            </li>
+                </li>
                 <li th:class="${active}=='category'?'active':''">
                     <a th:href="@{/admin/category/personal}"
                        th:class="${active}=='category'?'waves-effect active':'waves-effect'"><i
@@ -125,16 +125,16 @@
                     <!--th:class="${active}=='interest'?'waves-effect active':'waves-effect'"><i-->
                     <!--class="fa fa-gear" aria-hidden="true"></i><span> 兴趣相关 </span></a>-->
                 <!--</li>-->
-                <li th:class="${active}=='hot_search'?'active':''">
-                    <a th:href="@{/admin/hot_search}"
-                       th:class="${active}=='hot_search'?'waves-effect active':'waves-effect'"><i
-                            class="fa fa-gear" aria-hidden="true"></i><span> 热门搜索 </span></a>
-                </li>
-                <li th:class="${active}=='with_me'?'active':''">
-                    <a th:href="@{/admin/with_me}"
-                       th:class="${active}=='with_me'?'waves-effect active':'waves-effect'"><i
-                            class="fa fa-gear" aria-hidden="true"></i><span> 与我相关 </span></a>
-                </li>
+                <!--<li th:class="${active}=='hot_search'?'active':''">-->
+                    <!--<a th:href="@{/admin/hot_search}"-->
+                       <!--th:class="${active}=='hot_search'?'waves-effect active':'waves-effect'"><i-->
+                            <!--class="fa fa-gear" aria-hidden="true"></i><span> 热门搜索 </span></a>-->
+                <!--</li>-->
+                <!--<li th:class="${active}=='with_me'?'active':''">-->
+                    <!--<a th:href="@{/admin/with_me}"-->
+                       <!--th:class="${active}=='with_me'?'waves-effect active':'waves-effect'"><i-->
+                            <!--class="fa fa-gear" aria-hidden="true"></i><span> 与我相关 </span></a>-->
+                <!--</li>-->
             </ul>
             <div class="clearfix"></div>
         </div>

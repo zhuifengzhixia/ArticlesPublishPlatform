@@ -52,8 +52,10 @@ public class IndexController extends BaseController {
     @GetMapping(value = {"","/index"})
     public String index(HttpServletRequest request) {
         LOGGER.info("Enter admin index method");
+        HttpSession session = request.getSession();
+        UserDomain user = (UserDomain) session.getAttribute(WebConst.LOGIN_SESSION_KEY);
         // 获取5条评论
-        List<CommentDomain> comments = siteService.getComments(5);
+        List<CommentDomain> comments = siteService.getCommentsByAuthorId(user.getUid(), 5);
         // 获取5篇文章
         List<ContentDomain> contents = siteService.getNewArticles(5);
         // 获取后台统计数

@@ -31,4 +31,12 @@ public interface SiteService {
      * @return
      */
     StatisticsDto getStatistics();
+
+    /**
+     * 根据用户id获取评论列表
+     * @param uid
+     * @param limit
+     * @return
+     */
+    List<CommentDomain> getCommentsByAuthorId(Integer uid, int limit);
 }
